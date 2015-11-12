@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "gametime/helper"
+
+Gametime::Helper.verify
