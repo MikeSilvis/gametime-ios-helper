@@ -7,7 +7,7 @@ module Gametime
       VerifyLocalization.new.verify
     end
 
-    class VerifyTracking
+    class VerifyLocalization
       def verify
         puts "verifying and removing unused localization strings\n\n"
         find_invalid_strings_and_remove
@@ -79,11 +79,15 @@ module Gametime
 
     end
 
-    class VerifyLocalization
+    class VerifyTracking
       def verify
         puts "verifying tracking events\n\n"
         verify_no_missing_tracking_events
+
+        puts "verifying no strings used in tracking events\n\n"
+        verify_tracking_functions
       end
+
       def verify_no_missing_tracking_events
         File.open('./Classes/GAMTrackingEvents.h').each do |line|
           if line.start_with?('static')
@@ -94,6 +98,24 @@ module Gametime
               puts "Missing Event: #{tracking_event_name}"
             end
           end
+        end
+      end
+
+      def verify_tracking_functions
+        find_invalid_events("trackMinorEvent")
+        find_invalid_events("trackMajorEvent")
+      end
+
+      def find_invalid_events(base_string)
+        invalid_objective_c_events = `grep '#{base_string}:@' -R Classes/`.split("\n")
+        invalid_swift_events = `grep '#{base_string}("' -R Classes/`.split("\n")
+
+        invalid_events = invalid_objective_c_events.concat invalid_swift_events
+
+        invalid_events.each do |invalid_event|
+          invalid = invalid_event.match(/#{base_string}:@".*"\s/).to_s.gsub(/#{base_string}:/, '')
+
+          puts "Invalid minor event event: #{invalid}"
         end
       end
 
