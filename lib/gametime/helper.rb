@@ -8,6 +8,11 @@ module Gametime
     end
 
     class VerifyLocalization
+      EXCEPTIONS = [
+        "FAQ",
+        "LocalNotifications"
+      ]
+
       def verify
         puts "verifying and removing unused localization strings\n\n"
         find_invalid_strings_and_remove
@@ -60,7 +65,15 @@ module Gametime
         file_path = './Resources/Base.lproj/Localizable.strings'
 
         File.open(file_path).each do |line|
-          if line.start_with?('"')
+          exception_found = false
+
+          EXCEPTIONS.each do |exception|
+            if line.match(/#{exception}/i)
+              exception_found = true
+            end
+          end
+
+          if line.start_with?('"') && !exception_found
             localizable_string_name = line.match(/^"\S*/)
             search_results = `grep "#{localizable_string_name}" -R Classes/ | grep -v "Localizable.strings"`
 
