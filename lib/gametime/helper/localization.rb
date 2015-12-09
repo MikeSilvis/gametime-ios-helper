@@ -56,7 +56,6 @@ module Gametime
               end
             end
 
-
             if !valid_lines.include?(matched_output) && !exception_found
               puts "missing key: #{matched_output}"
               valid_event = false
