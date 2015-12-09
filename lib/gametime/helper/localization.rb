@@ -3,7 +3,8 @@ module Gametime
     class VerifyLocalization
       EXCEPTIONS = [
         "FAQ",
-        "LocalNotifications"
+        "LocalNotifications",
+        "Inflectors"
       ]
 
       def verify
@@ -32,7 +33,14 @@ module Gametime
           if matched_output = result.match(/stringForID\("\S*"/)
             matched_output = matched_output.to_s.gsub(/stringForID\(/, '')
 
-            unless valid_lines.include?(matched_output)
+            exception_found = false
+            EXCEPTIONS.each do |exception|
+              if matched_output.match(/#{exception}/)
+                exception_found = true
+              end
+            end
+
+            if !valid_lines.include?(matched_output) && !exception_found
               puts "missing key: #{matched_output}"
               valid_event = false
             end
@@ -41,7 +49,15 @@ module Gametime
           if matched_output = result.match(/GTStr\("\S*"/)
             matched_output = matched_output.to_s.gsub(/GTStr\(/, '')
 
-            unless valid_lines.include?(matched_output)
+            exception_found = false
+            EXCEPTIONS.each do |exception|
+              if matched_output.match(/#{exception}/)
+                exception_found = true
+              end
+            end
+
+
+            if !valid_lines.include?(matched_output) && !exception_found
               puts "missing key: #{matched_output}"
               valid_event = false
             end
