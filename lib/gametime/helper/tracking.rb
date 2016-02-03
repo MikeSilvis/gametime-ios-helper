@@ -28,7 +28,7 @@ module Gametime
       end
 
       def verify_tracking_functions
-        find_invalid_events("trackMinorEvent") && find_invalid_events("trackMajorEvent")
+        find_invalid_events("trackMinorEvent") && find_invalid_events("trackMajorEvent") && find_invalid_events("trackErrorEvent")
       end
 
       def find_invalid_events(base_string)
