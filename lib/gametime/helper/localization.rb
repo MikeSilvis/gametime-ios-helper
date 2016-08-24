@@ -2,8 +2,6 @@ module Gametime
   module Helper
     class VerifyLocalization
       EXCEPTIONS = [
-        "FAQ",
-        "LocalNotifications",
         "Inflectors"
       ]
 
