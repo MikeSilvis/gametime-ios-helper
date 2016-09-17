@@ -5,7 +5,7 @@ module Gametime
         puts 'Verifying all observers are deinit on the view'.colorize(:blue)
 
         valid_event = true
-        files_with_observers = `grep 'addObserver' -R Classes/ -l`.split("\n")
+        files_with_observers = `grep 'addObserver' -R Classes/ Tonight/ -l`.split("\n")
         files_with_observers.each do |file|
           search_results = `grep removeObserver "#{file}"`
 

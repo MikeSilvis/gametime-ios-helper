@@ -22,8 +22,8 @@ module Gametime
           end
         end
 
-        results = `grep "StringsManager.sharedInstance().stringForID" -R Classes/`.split("\n")
-        results.concat `grep "GTStr" -R Classes/`.split("\n")
+        results = `grep "StringsManager.sharedInstance().stringForID" -R Classes/ Tonight/`.split("\n")
+        results.concat `grep "GTStr" -R Classes/ Tonight/`.split("\n")
 
         valid_event = true
 
@@ -80,7 +80,7 @@ module Gametime
 
           if line.start_with?('"') && !exception_found
             localizable_string_name = line.match(/^"\S*/)
-            search_results = `grep "#{localizable_string_name}" -R Classes/ | grep -v "Localizable.strings"`
+            search_results = `grep "#{localizable_string_name}" -R Classes/ Tonight/ | grep -v "Localizable.strings"`
 
             if search_results.to_s == ""
               valid_event = false
