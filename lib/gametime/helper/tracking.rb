@@ -15,7 +15,7 @@ module Gametime
         File.open('./Classes/GAMTrackingEvents.h').each do |line|
           if line.start_with?('static')
             tracking_event_name = line.match(/kTracking(\w*)/)
-            search_results = `grep "#{tracking_event_name}" -R Classes/ Tonight/ | grep -v "GAMTrackingEvents.h"`
+            search_results = `grep "#{tracking_event_name}" -R Classes/ | grep -v "GAMTrackingEvents.h"`
 
             if search_results.to_s == ""
               valid_event = false
@@ -34,8 +34,8 @@ module Gametime
       def find_invalid_events(base_string)
         valid_event = true
 
-        invalid_objective_c_events = `grep '#{base_string}:@' -R Classes/ Tonight/`.split("\n")
-        invalid_swift_events = `grep '#{base_string}("' -R Classes/ Tonight/`.split("\n")
+        invalid_objective_c_events = `grep '#{base_string}:@' -R Classes/`.split("\n")
+        invalid_swift_events = `grep '#{base_string}("' -R Classes/`.split("\n")
 
         invalid_events = invalid_objective_c_events.concat invalid_swift_events
 
